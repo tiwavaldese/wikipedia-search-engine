@@ -35,3 +35,25 @@ const generateResults = (searchValue, inputField) => {
         }
     })
 }
+
+
+
+const Input = () => {
+    const [value, setValue] = useState("initial");
+
+    const sendRequest = useCallback((value) => {
+      console.log("Changed value:", value);
+    }, []);
+  
+    const debouncedSendRequest = useMemo(() => {
+      return debounce(sendRequest, 500);
+    }, [sendRequest]);
+  
+    const onChange = (e) => {
+      const value = e.target.value;
+      setValue(value);
+      debouncedSendRequest(value);
+    };
+  
+    return <input onChange={onChange} value={value} />;
+  }
