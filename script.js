@@ -38,22 +38,22 @@ const generateResults = (searchValue, inputField) => {
 
 
 
-const Input = () => {
-    const [value, setValue] = useState("initial");
+const input= document.querySelector("input");
+const debounceText = document.getElementById("debounce");
 
-    const sendRequest = useCallback((value) => {
-      console.log("Changed value:", value);
-    }, []);
-  
-    const debouncedSendRequest = useMemo(() => {
-      return debounce(sendRequest, 500);
-    }, [sendRequest]);
-  
-    const onChange = (e) => {
-      const value = e.target.value;
-      setValue(value);
-      debouncedSendRequest(value);
-    };
-  
-    return <input onChange={onChange} value={value} />;
-  }
+const updateDebounceText = debounce((text) =>{
+debounceText.textContent = text
+})
+
+input.addEventListener("input", e => {
+    updateDebounceText(e.target.value)
+})
+
+function debounce(cb, delay = 1000){
+    let timeout
+    return (...args)=> {
+        timeout = setTimeout(() => {
+            cb(...args)
+        }, delay)
+    }
+}
